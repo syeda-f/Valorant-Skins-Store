@@ -1,0 +1,45 @@
+
+
+
+<%- include('partials/header') %>
+
+<h1>Search results for "<%= q %>"</h1>
+<p><%= skins.length %> skin(s) found</p> //check if matching skins are found and display the number of skins found
+
+//category filter links
+<p>
+  Category:
+  <a href="/search?q=<%= encodeURIComponent(q) %>">All</a>
+  <% var categories = ['Melee', 'Sidearms', 'Primary']; %>
+  <% for (var i=0; i < categories.length; i++) { %>
+    <% var c = categories[i]; %>
+    | <a href="/search?q=<%= encodeURIComponent(q) %>&category=<%= c %>"><%= c %></a>
+  <% } %>
+  <% if (category) { %> (showing: <%= category %>)<% } %>
+</p>
+
+//results display
+<% if (skins.length === 0) { %>
+  <p>No skins found :() <a href="/">Browse all the skins</a></p>
+<% } else { %>
+  <% for (var j=0; j < skins.length; j++) { %>
+    <% var s = skins[j]; %>
+    
+    //product card for each skin
+    <div>
+      <a href="/product/<%= s.skinId %>">
+        <img src="<%= s.imageOne %>" alt="<%= s.skinName %>" width="200">
+        <h3><%= s.skinName %></h3>
+      </a>
+      <p><%= s.weaponName %> · <%= s.category %></p>
+      <p><%= s.description %></p>
+      <p><strong><%= s.radianites %> VP</strong></p>
+      <p>
+        <% if (s.stock === 0) { %>Sold out<% } else { %>In stock: <%= s.stock %><% } %>
+        | Rating: <%= s.rating %> / 5
+      </p>
+    </div>
+  <% } %>
+<% } %>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,55 @@
+
+
+<%- include('partials/header') %>
+
+<main>
+  <h1>Contact Us</h1>
+  <p>Questions about a skin or an order? Send us a message and we shall get back to you.</p>
+
+  <% if (sent) { %>
+    <p><strong>Gracias! Your message has been sent. We shall reply soon.</strong></p>
+    <p><a href="/">Back to the store</a></p>
+  <% } else { %>
+
+    <% if (errors_list.length > 0) { %>
+      <ul>
+        <% for (var i=0; i < errors_list.length; i++) { %>
+          <li><%= errors_list[i] %></li>
+        <% } %>
+      </ul>
+    <% } %>
+
+    <form action="/contact" method="POST">
+      <p>
+        <label for="name">Name</label><br>
+        <input type="text" id="name" name="name" value="<%= values.name || '' %>" required>
+      </p>
+
+      <p>
+        <label for="email">Email</label><br>
+        <input type="email" id="email" name="email" value="<%= values.email || '' %>" required>
+      </p>
+
+      <p>
+        <label for="subject">Subject</label><br>
+        <input type="text" id="subject" name="subject" value="<%= values.subject || '' %>" required>
+      </p>
+
+      <p>
+        <label for="message">Message</label><br>
+        <textarea id="message" name="message" rows="6" cols="40" required><%= values.message || '' %></textarea>
+      </p>
+
+      <button type="submit">Send message</button>
+    </form>
+
+  <% } %>
+
+  <h2>Other ways to reach us out</h2>
+  <ul>
+    <li>Check the <a href="/faq">FAQ</a> for quick answers</li>
+    <li>Email: contact@SHOPNAME.example</li>
+  </ul>
+</main>
+
+<%- include('partials/footer') %>
