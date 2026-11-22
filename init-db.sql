@@ -1,3 +1,13 @@
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS address;
+DROP TABLE IF EXISTS skin;
+DROP TABLE IF EXISTS cart_item;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS order_item;
+DROP TABLE IF EXISTS shipment;
+DROP TABLE IF EXISTS review;
+DROP TABLE IF EXISTS coupon;
+
 CREATE TABLE customer (
    custId INTEGER AUTO_INCREMENT PRIMARY KEY,
    custName VARCHAR(200) NOT NULL,
@@ -107,7 +117,8 @@ INSERT INTO address(custId, houseNumber, street, landmark, cityName, regionName,
     (1, 76, 'Kabsa Street', 'Naval Base', 'Al-Jubail', 'Eastern Province', 'SA', '57676767'),
     (2, 89, '7 Tombs Road', 'Golconda Fort', 'Gachibowli', 'Hyderabad', 'IN', '55672174'),
     (3, 36, 'Azad Kashmir Street', 'Rawal Lake', 'Rawalpindi', 'Punjab', 'PK', '56789962'),
-    (4, 12, 'Biryani Street', 'BTM Water Tank', 'Bengaluru', 'Karnataka', 'IN', '578739');
+    (4, 12, 'Biryani Street', 'BTM Water Tank', 'Bengaluru', 'Karnataka', 'IN', '578739'),
+    (5, 42, 'Heavens Highway', 'Twin Towers', 'Istanbul', 'Turkiye', 'TR', '629537');
 
 --- creating skins
 INSERT INTO skin(skinName, category, weaponName, radianites, description, rating, stock, imageOne, imageTwo, imageThree) VALUES
@@ -131,3 +142,27 @@ INSERT INTO skin(skinName, category, weaponName, radianites, description, rating
     ('Galleria Warden', 'Primary', 'Warden', 2300, 'Looks like a piece of modern art with bold shapes and colours.', 0, 90, 'fdsf', 'fdsf', 'fdsf'),
     ('Mystbloom Ares', 'Primary', 'Ares', 2400, 'Flowers wrapped in drifting purple mist, pretty and mysterious.', 0, 50, 'fdsf', 'fdsf', 'fdsf'),
     ('Dolmir''s Revenge Odin', 'Primary', 'Odin', 2800, 'Dark, angry and full of fire, like a creature breaking free.', 0, 100, 'fdsf', 'fdsf', 'fdsf');
+
+--- creating reviews for initialized skins
+INSERT INTO review (stars, comment, custId, skinId) VALUES
+(3, 'It looks pretty fire but the animation could be smoother :/', 4, 1),
+(5, 'ABSOLUTELY BEAUTIFUL ❤️❤️❤️', 1, 1),
+(4, 'Sooo cooooot!!! Matches Yoru mains!', 3, 2),
+(5, 'GARR!!! ferocious & daunting :)))', 2, 2),
+(2, 'Nice but not quite worth so many radianites :(((', 5, 3),
+(4, 'BOOTIFUL 🤩 in love with this!!!', 4, 3),
+(5, 'no comments just ⭐⭐⭐⭐⭐', 1, 4),
+(2, 'Very plain and boring. Do better @RiotGames', 2, 5),
+(5, 'Kawaiiiii😍 100% RECOMMENDED GUYS', 2, 5),
+(4, 'Looks absolutely ethereal! Cant wait to get in headshots with this beauty XX', 5, 6),
+(3, 'could use a little more flash?', 3, 7),
+(2, 'bleh. make smarter purchases than this skin everyone 👎👎👎', 2, 7),
+(1, 'This is soo ugly XDXD looks like a zombie 💀', 5, 8),
+(5, 'very cute. clean animation. reasonable price. 67', 1, 8),
+(3, 'AbSoLutElY gOrGeOuS ✨ Too expensive though, I''d need to sell a kidney to afford it 😭', 4, 9),
+(2, 'An absolute waste of my money smh 🙄 Dont get this trash gang 🥀', 2, 10),
+(5, 'very very bougie. me likey. ❤️', 5, 10),
+(4, 'I''d die to land headshots with this skinnnnn', 3, 11),
+(2, 'I can make a better design with my eyes closed & my hands tied 🤦🏼‍♀️', 1, 11),
+(1, 'Ew. Dont tell me the designers get paid to make junk like this....', 2, 12),
+(4, 'My all-time favourite is the ice variant!!! I would sell my soul to eat it.', 4, 12);
