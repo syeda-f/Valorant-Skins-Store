@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+
+<main>
+  <h1>Log In</h1>
+
+  <!-- display errors if any -->
+  <% if (errors.length > 0) { %>
+    <ul>
+      <% for (var i=0; i < errors.length; i++) { %>
+        <li><%= errors[i] %></li>
+      <% } %>
+    </ul>
+  <% } %>
+
+  <!-- login form -->
+  <form action="/login" method="POST">
+    <p>
+      <label for="identifier">Email or Phone number</label><br>
+      <!-- retain the value of the identifier field if there was an error -->
+      <input type="text" id="identifier" name="identifier" value="<%= values.identifier || '' %>" required>
+    </p>
+
+    <p>
+      <label for="password">Password</label><br>
+      <!-- never retain the password field value for security reasons -->
+      <input type="password" id="password" name="password" required>
+    </p>
+
+    <button type="submit">Log In</button>
+  </form>
+
+  <!-- link to registration page -->
+  <p>New here? <a href="/register">Create an account</a></p>
+</main>
+
+<%- include('partials/footer') %>

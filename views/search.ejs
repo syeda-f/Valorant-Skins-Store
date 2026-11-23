@@ -4,9 +4,9 @@
 <%- include('partials/header') %>
 
 <h1>Search results for "<%= q %>"</h1>
-<p><%= skins.length %> skin(s) found</p> //check if matching skins are found and display the number of skins found
+<p><%= skins.length %> skin(s) found</p> <!-- check if matching skins are found and display the number of skins found -->
 
-//category filter links
+<!-- category filter links -->
 <p>
   Category:
   <a href="/search?q=<%= encodeURIComponent(q) %>">All</a>
@@ -18,14 +18,14 @@
   <% if (category) { %> (showing: <%= category %>)<% } %>
 </p>
 
-//results display
+<!-- display the search results -->
 <% if (skins.length === 0) { %>
   <p>No skins found :() <a href="/">Browse all the skins</a></p>
 <% } else { %>
   <% for (var j=0; j < skins.length; j++) { %>
     <% var s = skins[j]; %>
     
-    //product card for each skin
+    <!-- display each skin's details -->
     <div>
       <a href="/product/<%= s.skinId %>">
         <img src="<%= s.imageOne %>" alt="<%= s.skinName %>" width="200">

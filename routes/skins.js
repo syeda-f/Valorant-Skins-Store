@@ -1,4 +1,6 @@
 
+import bcrypt from 'bcryptjs';
+import rateLimit from 'express-rate-limit';
 
 const express = require('express');
 const db = require('../config/db');
@@ -50,4 +52,54 @@ router.get('/contact', (req, res) => {
 //route to render the FAQ page
 router.get('/faq', (req, res) => {
   res.render('faq', { title: 'FAQ' });
+});
+
+//rate limiter for login attempts (max 4 failed attempts in 17 minutes)
+const login_limit = rateLimit({
+  windowMs: 17 * 60 * 1000, //time window of 17 minutes
+  max: 4,  //maximum number of failed attempts allowed
+  skipSuccessfulRequests: true,  //only count failed attempts
+  handler: (req, res) =>
+    res.status(429).render('login', {
+      title: 'Log In',
+      errors: ['Too many failed attempts! Try again in 17 minutes.'],
+      values: {},
+    }),
+});
+
+//route to render the login page
+router.get('/login', (req, res) => {
+  res.render('login', { title: 'Log In', errors: [], values: {} });
+});
+
+//route to handle login form submission with rate limiting
+router.post('/login', login_limit, async (req, res, next) => {
+  try {
+    const identifier = (req.body.identifier || '').trim();
+    const password = req.body.password || '';
+
+    const is_email = identifier.includes('@'); //determine if the identifier is an email or phone number
+    const column = is_email ? 'email' : 'phone'; 
+    //normalize the identifier for comparison (lowercase for email, remove spaces and hyphens for phone)
+    const value = is_email ? identifier.toLowerCase() : identifier.replace(/[\s-]/g, '');
+    
+    //query the database for a customer with the given email or phone number
+    const [rows] = await db.execute(
+      `SELECT custId, custName, password FROM customer WHERE ${column} = ?`,
+      [value]
+    );
+
+    //check if a matching user was found and if the password matches the hashed password in the database
+    const ok = rows.length > 0 && (await bcrypt.compare(password, rows[0].password));
+    if (!ok) {
+      return res.status(401).render('login', {
+        title: 'Log In',
+        errors: ['Incorrect login details.'],
+        values: { identifier },
+      });
+    }
+
+    // need to do (later, with sessions):
+    res.redirect('/');
+  } catch (err) { next(err); }
 });
